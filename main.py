@@ -46,8 +46,9 @@ def createArchive(source, filename):
     logging.info(f"Backup started on " + source)
     print(f"Backup started on " + source)
     try:
-        p1 = sb.run(['tar','-a','-cf', filename,  source], capture_output=True, text=True,)
+        p1 = sb.run(['tar','-a','-cf', filename,  source])
         logging.info("Backup successful.")
+        print("Backup successful.")
     except:
         logging.error(f"An exception occurred.")
 
