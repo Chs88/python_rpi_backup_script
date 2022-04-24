@@ -18,23 +18,23 @@ now = datetime.now()
 date_string = now.strftime("%d-%m-%Y-%H:%M")
 
 
-## configure directories and file names
+### configure directories and file names
 
-#check if the folder exists
-def wdirExists():
-    try:
-        os.chdir("/home/chs88/Desktop/Practice_Projects")
-    except:
-        logging.error("Working directory doesn't exist")
-    else:
-        os.chdir("/home/chs88/Desktop/Practice_Projects")
-        wdir = os.getcwd() ## working directory
-        return wdir
-
+source = "/home/chs88/Desktop/Practice_Projects"
 # destination directory
-ddir = "/home/chs88/scripts_backup/" 
+target = "/home/chs88/scripts_backup/" 
 #configuring the filename for the backup tar file
-filename = f"{ddir}backup-{date_string}"
+filename = f"{target}backup-{date_string}"
+
+
+# #check if the folder exists
+def sourceExists():
+    if os.path.exists(source) == True:
+        return source
+    else:
+        logger.error("The source directory doesn't exist")
+        print("The source directory doesn't exist")
+        exit()
 
 
 
@@ -42,11 +42,11 @@ filename = f"{ddir}backup-{date_string}"
 ## Configure functions for the backup
 
 
-def createArchive(wdir, filename):
-    logging.info(f"Backup started on " + wdir)
-    print(f"Backup started on " + wdir)
+def createArchive(source, filename):
+    logging.info(f"Backup started on " + source)
+    print(f"Backup started on " + source)
     try:
-        p1 = sb.run(['tar', '-cvf', filename,  wdir], capture_output=True, text=True,)
+        p1 = sb.run(['tar', '-cvf', filename,  source], capture_output=True, text=True,)
         logging.info("Backup successful.")
     except:
         logging.error(f"An exception occurred.")
@@ -57,6 +57,6 @@ def createArchive(wdir, filename):
 
 if __name__ == "__main__":
     createArchive(
-        wdirExists(), filename
+        sourceExists(), filename
     )
     # pass
