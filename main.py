@@ -24,7 +24,7 @@ source = "/home/chs88/Desktop/Practice_Projects"
 # destination directory
 target = "/home/chs88/scripts_backup/" 
 #configuring the filename for the backup tar file
-filename = f"{target}backup-{date_string}"
+filename = f"{target}backup-{date_string}.tgz"
 
 
 # #check if the folder exists
@@ -46,7 +46,7 @@ def createArchive(source, filename):
     logging.info(f"Backup started on " + source)
     print(f"Backup started on " + source)
     try:
-        p1 = sb.run(['tar', '-cvf', filename,  source], capture_output=True, text=True,)
+        p1 = sb.run(['tar','-a','-cf', filename,  source], capture_output=True, text=True,)
         logging.info("Backup successful.")
     except:
         logging.error(f"An exception occurred.")
