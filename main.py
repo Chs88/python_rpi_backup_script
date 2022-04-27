@@ -20,9 +20,9 @@ date_string = now.strftime("%d-%m-%Y-%H:%M")
 
 ### configure directories and file names
 
-source = "/home/chs88/Desktop/Practice_Projects"
+source = "/home/chs88/Desktop/Practice_Projects" ## test source
 # destination directory
-target = "/home/chs88/scripts_backup/" 
+target = "/home/chs88/scripts_backup/" ## test target
 #configuring the filename for the backup tar file
 filename = f"{target}backup-{date_string}.tgz"
 
