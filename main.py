@@ -20,9 +20,9 @@ date_string = now.strftime("%d-%m-%Y-%H:%M")
 
 ### configure directories and file names
 
-source = "/home/chs88/Desktop/Practice_Projects" ## test source
+source = "/" # Root folder
 # destination directory
-target = "/home/chs88/scripts_backup/" ## test target
+target = "/mnt/shared_hdd/rpi_backups/" ## external hdd
 #configuring the filename for the backup tar file
 filename = f"{target}backup-{date_string}.tgz"
 
