@@ -20,7 +20,7 @@ date_string = now.strftime("%d-%m-%Y-%H:%M")
 
 ### configure directories and file names
 
-source = "/" # Root folder
+source = "/home/" # home folder
 # destination directory
 target = "/mnt/shared_hdd/rpi_backups/" ## external hdd
 #configuring the filename for the backup tar file
