@@ -8,7 +8,7 @@ import logging
 ## Configure logging
 
 LOG_FORMAT = "%(asctime)s - %(message)s"
-logging.basicConfig(filename="/home/chs88/scripts_backup/backuplog.txt", level=logging.DEBUG, format=LOG_FORMAT)
+logging.basicConfig(filename="/mnt/shared_hdd/rpi_backups/backuplog.txt", level=logging.DEBUG, format=LOG_FORMAT)
 logger = logging.getLogger()
 
 
