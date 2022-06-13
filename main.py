@@ -23,13 +23,17 @@ date_string = now.strftime("%d-%m-%Y-%H%M")
 
 source = "/home/" # home folder
 # destination directory
-target = "/mnt/shared_hdd/rpi_backups/home_backups/" ## external hdd
+target = "/mnt/shared_hdd/rpi_backups/" ## external hdd
 #configuring the filename for the backup tar file
-filename = f"{target}backup-{date_string}.tgz"
+home_tar_filename = f"{target}/home_backups/backup-{date_string}.tgz"
+# configuring destination snapshot device for timeshift
+snapshot_device = '/dev/sda1/'
+#snapshot target
+snapshot_target = '/mnt/shared_hdd/timeshift/'
 
 
 # #check if the folder exists
-def sourceExists():
+def source_exists():
     if os.path.exists(source) == True:
         return source
     else:
@@ -43,7 +47,7 @@ def sourceExists():
 ## Configure functions for the backup
 
 
-def createArchive(source, filename):
+def create_archive(source, filename):
     logging.info(f"Backup started on " + source)
     print(f"Backup started on " + source)
     try:
@@ -54,26 +58,32 @@ def createArchive(source, filename):
         logging.error(f"An exception occurred.")
 
 
-def backupFileSystem():
-    p2 = sb.run(['sudo', 'timeshift', '--create', '--comments', f'{date_string}', '--tags', 'D', '--snapshot-device', '/dev/sda1'])
+def backup_file_system():
+    p2 = sb.run(['sudo', 'timeshift', '--create', '--comments', f'{date_string}', '--tags', 'D', '--snapshot-device', f'{snapshot_device}'])
     logging.info("File system backup successful.")
     
 
+##creating function that deletes old logs
 
-def cleanup():
-    p3 = sb.run(['tar','-a','-cf', f'/mnt/shared_hdd/rpi_backups/snapshots/snapshot-{date_string}.tgz','/mnt/shared_hdd/timeshift/'])
-    cleanup = sb.run(['rm', '-rf', '/mnt/shared_hdd/timeshift/'])
+# def delete_old_logs():
 
-while os.path.exists('/mnt/shared_hdd/timeshift/'):
-    time.sleep(1)
+
+def clean_up():
+    p3 = sb.run(['tar','-a','-cf', f'/mnt/shared_hdd/rpi_backups/snapshots/snapshot-{date_string}.tgz',f'{snapshot_target}'])
+    cleanup = sb.run(['rm', '-rf', f'{snapshot_target}'])
+    ##delete old logs
+
+
+# while os.path.exists(f'{snapshot_target}'):
+#     time.sleep(1)
 
 if __name__ == "__main__":
-    createArchive(
-        sourceExists(), filename
+    create_archive(
+        source_exists(), home_tar_filename
     )
-    backupFileSystem()
-    while not os.path.exists('/mnt/shared_hdd/timeshift/'):
+    backup_file_system()
+    while not os.path.exists(f'{snapshot_target}'):
         time.sleep(1)
-    cleanup()
+    clean_up()
     logging.info("All backups and cleanup successful")
     # pass
