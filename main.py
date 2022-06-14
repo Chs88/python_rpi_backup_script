@@ -30,7 +30,7 @@ home_tar_filename = f"{target}/home_backups/backup-{date_string}.tgz"
 # configuring destination snapshot device for timeshift
 snapshot_device = '/dev/sda1/'
 #snapshot target
-snapshot_target = '/mnt/shared_hdd/timeshift/'
+snapshot_source = '/mnt/shared_hdd/timeshift/'
 
 
 # #check if the folder exists
@@ -76,8 +76,8 @@ def delete_oldest(folder):
 
 
 def clean_up():
-    p3 = sb.run(['tar','-a','-cf', f'/mnt/shared_hdd/rpi_backups/snapshots/snapshot-{date_string}.tgz',f'{snapshot_target}'])
-    cleanup = sb.run(['rm', '-rf', f'{snapshot_target}'])
+    p3 = sb.run(['tar','-a','-cf', f'/mnt/shared_hdd/rpi_backups/snapshots/snapshot-{date_string}.tgz',f'{snapshot_source}'])
+    cleanup = sb.run(['rm', '-rf', f'{snapshot_source}'])
 
 
 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         source_exists(), home_tar_filename
     )
     backup_file_system()
-    while not os.path.exists(f'{snapshot_target}'):
+    while not os.path.exists(f'{snapshot_source}'):
         time.sleep(1)
     clean_up()
     delete_oldest(target + '/home_backups/')
