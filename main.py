@@ -19,8 +19,9 @@ now = datetime.now()
 date_string = now.strftime("%d-%m-%Y-%H%M")
 
 
-### configure directories and file names
+### configure directory paths and file names
 
+#source to back up
 source = "/home/" # home folder
 # destination directory
 target = "/mnt/shared_hdd/rpi_backups/" ## external hdd
@@ -63,19 +64,24 @@ def backup_file_system():
     logging.info("File system backup successful.")
     
 
-##creating function that deletes old logs
+##creating function that deletes old archives
 
-# def delete_old_logs():
+def delete_oldest(folder):
+    list_of_files = os.listdir(folder)
+    os.chdir(folder)
+    if len(list_of_files) >= 4: ## if there are 4 or more files
+        oldest_file = min(list_of_files, key=os.path.getctime)
+        os.remove(os.path.abspath(oldest_file))
+    
 
 
 def clean_up():
     p3 = sb.run(['tar','-a','-cf', f'/mnt/shared_hdd/rpi_backups/snapshots/snapshot-{date_string}.tgz',f'{snapshot_target}'])
     cleanup = sb.run(['rm', '-rf', f'{snapshot_target}'])
-    ##delete old logs
 
 
-# while os.path.exists(f'{snapshot_target}'):
-#     time.sleep(1)
+
+
 
 if __name__ == "__main__":
     create_archive(
@@ -85,5 +91,7 @@ if __name__ == "__main__":
     while not os.path.exists(f'{snapshot_target}'):
         time.sleep(1)
     clean_up()
+    delete_oldest(target + '/home_backups/')
+    delete_oldest(target + '/snapshots/')
     logging.info("All backups and cleanup successful")
     # pass
