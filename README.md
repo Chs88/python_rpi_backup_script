@@ -9,4 +9,4 @@ All variable names, directory names and hard drive names are specific to my pers
 - time (To use the sleep() function to wait for some commands to finish running)
 - os (Used for pathing and listing directories)
 - subprocess (Used for running the bash commands)
-- logging (I use this to created logs for the script)
+- logging (I use this to creat logs for the script)
